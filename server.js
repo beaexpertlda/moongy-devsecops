@@ -15,6 +15,7 @@ db.serialize(() => {
 });
 
 // 1. VULNERABILIDADE: Injeção de Dependência / Versões desatualizadas & Hardcoded Secrets
+
 const JWT_SECRET = "super_secret_jwt_key_12345"; // Segredo em hardcode
 
 // 2. VULNERABILIDADE: SQL Injection (A03:2021)
