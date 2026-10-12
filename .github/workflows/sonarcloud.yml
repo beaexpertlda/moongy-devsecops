@@ -1,31 +1,21 @@
-name: SonarCloud Analysis
+name: SonarCloud Vulnerability Scan
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ main, master ]
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [ opened, synchronize, reopened ]
 
 jobs:
-  sonarcloud:
-    name: Build and Analyze on SonarCloud
+  build:
+    name: SonarCloud Analysis
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Essencial para buscar o histórico completo
+          fetch-depth: 0 # Disable shallow clones for accurate analysis history
 
-      # 1. Configurar o ambiente Node.js para que o ecossistema e os pacotes sejam reconhecidos
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      # 2. Instalar dependências (ajuda o motor a validar dependências e imports)
-      - name: Install dependencies
-        run: npm install
-
-      # 3. Executar o Scanner do SonarCloud com parâmetros exploidos para JavaScript
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
@@ -33,7 +23,8 @@ jobs:
           SONAR_TOKEN: 556b59d827864a22205a6aa06d6251976daad6d6
         with:
           args: >
-            -Dsonar.branch.name=main
-            -Dsonar.sources=.
-            -Dsonar.language=js
-            -Dsonar.exclusions=node_modules/**,test/**
+            -Dsonar.projectKey=beaexpertlda-key
+            -Dsonar.sources=server.js
+            -Dsonar.qualitygate.wait=true
+
+
