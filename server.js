@@ -74,3 +74,11 @@ app.get('/api/user/:id', (req, res) => {
 app.listen(3000, () => {
     console.log('Servidor vulnerável a correr na porta 3000');
 });
+
+// 6. VULNERABILIDADE DE TESTE: Code Injection via eval
+app.get('/calc', (req, res) => {
+    const expr = req.query.expr;
+    // O SonarCloud deteta imediatamente o uso de eval como uma Vulnerabilidade Crítica de Segurança
+    const result = eval(expr); 
+    res.send(`Resultado: ${result}`);
+});
