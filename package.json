@@ -1,0 +1,14 @@
+{
+  "name": "node-vulnerable-app",
+  "version": "1.0.0",
+  "description": "Aplicação Node.js propositadamente vulnerável para testes de DevSecOps",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "4.16.0",
+    "sqlite3": "4.2.0",
+    "lodash": "4.17.15"
+  }
+}
