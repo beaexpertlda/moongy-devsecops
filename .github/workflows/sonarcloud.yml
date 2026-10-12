@@ -13,13 +13,27 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Necessário para uma análise de histórico correta
+          fetch-depth: 0  # Essencial para buscar o histórico completo
 
+      # 1. Configurar o ambiente Node.js para que o ecossistema e os pacotes sejam reconhecidos
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # 2. Instalar dependências (ajuda o motor a validar dependências e imports)
+      - name: Install dependencies
+        run: npm install
+
+      # 3. Executar o Scanner do SonarCloud com parâmetros exploidos para JavaScript
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Necessário para o PR decoration no GitHub
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: 556b59d827864a22205a6aa06d6251976daad6d6
         with:
           args: >
             -Dsonar.branch.name=main
+            -Dsonar.sources=.
+            -Dsonar.language=js
+            -Dsonar.exclusions=node_modules/**,test/**
